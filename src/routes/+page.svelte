@@ -6,6 +6,7 @@
     let isLoading = true;
     let showPopup = false;
     let showNewPlayerPopup = false;
+    let scoringInfo = false;
     let newPlayerName = '';
     let showDeleteConfirmation = false;
     let winner = '';
@@ -209,7 +210,6 @@
         showDeleteConfirmation = true;
     };
 
-    // You'll need to implement updateScore function
     const updateScore = async () => {
         try {
             // Fetch current scores for winner and loser
@@ -253,14 +253,16 @@
                 throw new Error('Winner or loser not found');
             }
 
-            // Calculate new scores
+            // Get current rankings
+            const currentRankings = players.sort((a, b) => b.score - a.score);
+            const winnerRank = currentRankings.findIndex(p => p.id === winnerData.id);
+            const loserRank = currentRankings.findIndex(p => p.id === loserData.id);
+
+            // Calculate points based on rank difference
             let pointsForWinner = 2.00;
-            if (winnerData.score !== 0.00 || loserData.score !== 0.00) {
-                const scoreDifference = winnerData.score - loserData.score;
-				console.log(winnerData.score);
-				console.log(loserData.score);
-                const extraPoints = Math.min(3.00, Math.max(0.00, -scoreDifference / 50.00));
-				console.log(extraPoints);
+            const rankDifference = loserRank - winnerRank;
+            if (rankDifference > 0) {
+                const extraPoints = Math.min(7.00, rankDifference / 3);
                 pointsForWinner += extraPoints;
             }
 
@@ -334,9 +336,9 @@
 
     function calculateRanking(score, gamesPlayed) {
         const averageScore = Number(score) / (Number(gamesPlayed) || 1);
-        const gamesWeight = Math.min(1, Number(gamesPlayed) / 13); // Caps at 10 games
+        const gamesWeight = Math.min(1, Number(gamesPlayed) / 13); // Caps at 13 games
         const weightedScore = averageScore * (1 + gamesWeight);
-        return weightedScore.toFixed(1);
+        return weightedScore.toFixed(2);
     }
 
     $: sortedPlayers = isLoading ? [] : [...players].sort((a, b) => {
@@ -365,11 +367,17 @@
                     <tr>
                         <th>Rank</th>
                         <th>Name</th>
-                        <th>Ranking Score</th>
+                        <th>
+                            Ranking Score 
+                            <button type="button" class="info-button" style="background: none; border: none; cursor: pointer;" on:click={() => scoringInfo = true} on:keydown={(e) => e.key === 'Enter' && (scoringInfo = true)}>
+                                <i class="fas fa-info-circle" aria-hidden="true" style="color: #fff; font-size: 17px;"></i>
+                                <span class="sr-only">Scoring Information</span>
+                            </button>
+                        </th>
                         <th>Score</th>
                         <th>Games Played</th> 
                         <th>Company</th>
-                        <th>Action</th>
+                        <th><i class="fas fa-trash-alt"></i></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -509,6 +517,38 @@
         </div>
     {/each}
 </div>
+
+{#if scoringInfo}
+    <div class="popup-overlay">
+        <div class="popup scoringPopup">
+            <h2>Scoring Information</h2>
+            <div class="expBlockContainer">
+                <div class="expBlock" style="flex: 1; margin-right: 10px;">
+                    <h5>Ranking System that: </h5>
+                    <ul>
+                        <li>1. Rewards for beating higher-ranked opponents</li>
+                        <li>2. Provides gradual progression</li>
+                        <li>3. Maintains overall stability in the rankings</li>
+                        <li>4. Accounts for small differences in rank</li>
+                        <li>5. Balance between "regulars" and "casuals"</li>
+                    </ul>
+                </div>
+                <div class="expBlock" style="flex: 1; margin-left: 10px;">
+                    <h5>Ranking formula: </h5>
+                    <ul>
+                        <li>1. Base points for winning: 2.00</li>
+                        <li>2. Extra points: (Rank difference) / 3, capped at 7.00</li>
+                        <li>3. Maintains overall stability in the rankings</li>
+                        <li>4. Weight factor for the # of games played</li>
+                    </ul>
+                </div>
+            </div>
+            <button style="margin-top: 20px;" on:click={() => scoringInfo = false}>Close</button>
+        </div>
+    </div>
+{/if}
+
+
 
 <style>
     :global(body) {
@@ -742,7 +782,44 @@
         background-color: #704a80;
     }
 
+    .scoringPopup{
+        max-width: 800px;
+    }
+
+    .scoringPopup h5 {
+        font-size: 16px; 
+        margin: 0;
+    }
+
+    .scoringPopup ul {
+        list-style-type: none;
+        padding-left: 5px;
+        margin-bottom: 0;
+    }
+
+    .scoringPopup li {
+        font-style: italic;
+        font-size: 13px;
+        color: #452e73; 
+        line-height: 1.5;
+    }
+
+    .scoringPopup .expBlock{
+        background-color: rgba(148, 112, 219, 0.175);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .expBlockContainer{
+        display: flex;
+        justify-content: space-between;
+    }
+
     @media (max-width: 768px) {
+        .expBlockContainer {
+            flex-direction: column;
+            gap: 15px;
+        }
         .popup {
             margin: 0 10px;
         }
