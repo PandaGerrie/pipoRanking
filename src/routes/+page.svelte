@@ -260,8 +260,8 @@
 
             // Calculate points based on rank difference
             let pointsForWinner = 2.00;
-            const rankDifference = loserRank - winnerRank;
-            if (rankDifference > 0) {  // Only apply bonus if winner was lower ranked
+            const rankDifference = winnerRank - loserRank;
+            if (rankDifference > 0 && calculateRanking(winnerData.score, winnerData.gamesPlayed) !== calculateRanking(loserData.score, loserData.gamesPlayed)) {
                 const extraPoints = Math.min(7.00, rankDifference / 3);
                 pointsForWinner += extraPoints;
             }
