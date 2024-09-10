@@ -413,6 +413,7 @@
 			<button on:click={() => showPopup = true}>Add New Result</button>
 		</div>
 		<p class="cheat-warning">⚠️ You are able to cheat, but please don't!</p>
+        <p class="powered-by">🐼 <br> Powered by <span style="color:#6f2fbd;font-weight:600;">pandaGerrie </span><br> <a href="https://purplepanda.be">purplepanda.be</a></p>
 	</div>
 </section>
 
@@ -507,10 +508,16 @@
         font-family: Arial, Helvetica, sans-serif;
         background-color: #f0f5ff;
     }
-    .cheat-warning{
+    .cheat-warning, .powered-by{
         text-align: center;
-        font-size: 10px;
+        font-size: 16px;
         color: #503782;
+        margin-top: 45px;
+    }
+    .powered-by{
+        font-size: 12px;
+        margin-top: 30px;
+        line-height: 1.5;
     }
     .popup-overlay {
         position: fixed;
