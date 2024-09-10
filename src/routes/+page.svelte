@@ -334,7 +334,7 @@
 
     function calculateRanking(score, gamesPlayed) {
         const averageScore = Number(score) / (Number(gamesPlayed) || 1);
-        const gamesWeight = Math.min(1, Number(gamesPlayed) / 10); // Caps at 10 games
+        const gamesWeight = Math.min(1, Number(gamesPlayed) / 13); // Caps at 10 games
         const weightedScore = averageScore * (1 + gamesWeight);
         return weightedScore.toFixed(1);
     }
