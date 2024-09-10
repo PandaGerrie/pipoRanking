@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Gerrie",
+    "points": 300,
+    "numberOfGames": 2
+  },
+  {
+    "id": 2,
+    "name": "Romi",
+    "points": 0,
+    "numberOfGames": 2
+  }
+]

@@ -1,44 +1,45 @@
-import Database from "better-sqlite3";
 import { json } from "@sveltejs/kit";
+import fs from "fs/promises";
+import path from "path";
+
+const DB_FILE = "players.json";
+
+async function readDatabase() {
+  try {
+    const data = await fs.readFile(DB_FILE, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      // File doesn't exist, return empty array
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function writeDatabase(data) {
+  await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf8");
+}
 
 export async function GET() {
-  const db = new Database("players.db");
+  let players = await readDatabase();
 
-  // Create table if not exists
-  db.exec(`
-        CREATE TABLE IF NOT EXISTS players (
-            id INTEGER PRIMARY KEY,
-            name TEXT,
-            points INTEGER,
-            numberOfGames INTEGER
-        )
-    `);
-
-  // Insert sample data if table is empty
-  const count = db.prepare("SELECT COUNT(*) as count FROM players").get().count;
-  if (count === 0) {
-    const insert = db.prepare(
-      "INSERT INTO players (name, points, numberOfGames) VALUES (?, ?, ?)"
-    );
-    [
-      ["Gerrie", 300, 2],
-      ["Romi", 0, 2],
-    ].forEach((player) => insert.run(player));
+  if (players.length === 0) {
+    // Insert sample data if database is empty
+    players = [
+      { id: 1, name: "Romi", points: 300, numberOfGames: 2 },
+      { id: 2, name: "Gerrie", points: 0, numberOfGames: 2 },
+    ];
+    await writeDatabase(players);
   }
 
-  // Fetch players
-  const players = db
-    .prepare("SELECT * FROM players ORDER BY points DESC")
-    .all();
-
-  db.close();
+  // Sort players by points in descending order
+  players.sort((a, b) => b.points - a.points);
 
   return json(players);
 }
 
 export async function POST({ request }) {
-  const db = new Database("players.db");
-
   try {
     const { name } = await request.json();
 
@@ -49,16 +50,13 @@ export async function POST({ request }) {
       });
     }
 
-    const insert = db.prepare(
-      "INSERT INTO players (name, points, numberOfGames) VALUES (?, ?, ?)"
-    );
-    const info = insert.run(name, 0, 0); // New players start with 0 points and 0 games
+    const players = await readDatabase();
+    const newId =
+      players.length > 0 ? Math.max(...players.map((p) => p.id)) + 1 : 1;
+    const newPlayer = { id: newId, name, points: 0, numberOfGames: 0 };
+    players.push(newPlayer);
 
-    const newPlayer = db
-      .prepare("SELECT * FROM players WHERE id = ?")
-      .get(info.lastInsertRowid);
-
-    db.close();
+    await writeDatabase(players);
 
     return json(newPlayer);
   } catch (error) {
@@ -71,8 +69,6 @@ export async function POST({ request }) {
 }
 
 export async function DELETE({ params }) {
-  const db = new Database("players.db");
-
   try {
     const { id } = params;
 
@@ -86,21 +82,19 @@ export async function DELETE({ params }) {
 
     console.log(`Attempting to delete player with id: ${id}`);
 
-    // Delete the player
-    const deleteStmt = db.prepare("DELETE FROM players WHERE id = ?");
-    const result = deleteStmt.run(id);
+    let players = await readDatabase();
+    const initialLength = players.length;
+    players = players.filter((player) => player.id !== parseInt(id));
 
-    console.log(`Delete operation result:`, result);
-
-    db.close();
-
-    if (result.changes === 0) {
+    if (players.length === initialLength) {
       console.log(`No player found with id: ${id}`);
       return new Response(JSON.stringify({ error: "Player not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
     }
+
+    await writeDatabase(players);
 
     console.log(`Successfully deleted player with id: ${id}`);
     return new Response(null, { status: 204 });
