@@ -529,8 +529,9 @@
                         <li>1. Rewards for beating higher-ranked opponents</li>
                         <li>2. Provides gradual progression</li>
                         <li>3. Maintains overall stability in the rankings</li>
-                        <li>4. Accounts for small differences in rank</li>
-                        <li>5. Balance between "regulars" and "casuals"</li>
+                        <li>4. Min to gain: 2.00 points</li>
+                        <li>5. Max to gain: 9.00 points</li>
+                        <li>6. Balances between "regulars" and "casuals"</li>
                     </ul>
                 </div>
                 <div class="expBlock" style="flex: 1; margin-left: 10px;">
