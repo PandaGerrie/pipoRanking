@@ -409,8 +409,8 @@
             </table>
         {/if}
 		<div class="button-container">
-			<button on:click={() => showNewPlayerPopup = true}>Nieuwe Speler Toevoegen</button>
-			<button on:click={() => showPopup = true}>Nieuwe Uitslag Toevoegen</button>
+			<button on:click={() => showNewPlayerPopup = true}>Add New Player</button>
+			<button on:click={() => showPopup = true}>Add New Result</button>
 		</div>
 	</div>
 </section>
@@ -450,8 +450,8 @@
 					{/each}
 				</div>
 			</div>
-            <button on:click={addNewPlayer} disabled={!newPlayerName}>Voeg speler toe</button>
-            <button class="cancel-button" on:click={() => showNewPlayerPopup = false}>Sluiten</button>
+            <button on:click={addNewPlayer} disabled={!newPlayerName}>Add Player</button>
+            <button class="cancel-button" on:click={() => showNewPlayerPopup = false}>Close</button>
         </div>
     </div>
 {/if}
@@ -459,23 +459,23 @@
 {#if showPopup}
     <div class="popup-overlay">
         <div class="popup">
-            <h2>Uitslag laatste spel</h2>
+            <h2>Result of Last Game</h2>
             <label for="winner-select">Winner</label>
             <select id="winner-select" bind:value={winner}>
-                <option value="">Selecteer winnaar</option>
+                <option value="">Select winner</option>
                 {#each players as player}
                     <option value={player.name}>{player.name}</option>
                 {/each}
             </select>
             <label for="loser-select">Loser</label>
             <select id="loser-select" bind:value={loser}>
-                <option value="">Selecteer verliezer</option>
+                <option value="">Select loser</option>
                 {#each players as player}
                     <option value={player.name}>{player.name}</option>
                 {/each}
             </select>
-            <button on:click={updateScore} disabled={!winner || !loser}>Voeg score toe</button>
-            <button class="cancel-button" on:click={() => showPopup = false}>Sluiten</button>
+            <button on:click={updateScore} disabled={!winner || !loser}>Add Score</button>
+            <button class="cancel-button" on:click={() => showPopup = false}>Close</button>
         </div>
     </div>
 {/if}
@@ -483,12 +483,12 @@
 {#if showDeleteConfirmation}
     <div class="popup-overlay">
         <div class="popup">
-            <h2>Bevestig verwijdering</h2>
-            <p>Weet je zeker dat je de speler {playerToDelete.name} wilt verwijderen?</p>
-            <label for="delete-password">Wachtwoord:</label>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete the player {playerToDelete.name}?</p>
+            <label for="delete-password">Password:</label>
             <input type="password" id="delete-password" bind:value={deletePassword}>
-            <button class="delete-button" on:click={deletePlayer} disabled={deletePassword !== 'admin'}>Verwijder</button>
-            <button class="cancel-button" on:click={() => showDeleteConfirmation = false}>Annuleer</button>
+            <button class="delete-button" on:click={deletePlayer} disabled={deletePassword !== 'admin'}>Delete</button>
+            <button class="cancel-button" on:click={() => showDeleteConfirmation = false}>Cancel</button>
         </div>
     </div>
 {/if}
