@@ -754,5 +754,14 @@
             margin-bottom: 10px;
             margin-top: 5px; 
         }
+
+        .cheat-warning{
+        font-size: 13px;
+        margin-top: 20px;
+        }
+        .powered-by{
+            font-size: 10px;
+            margin-top: 30px;
+        }
     }
 </style>
