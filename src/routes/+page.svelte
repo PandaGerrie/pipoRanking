@@ -332,10 +332,17 @@
         showPopup = false;
     };
 
+    function calculateRanking(score, gamesPlayed) {
+        const averageScore = Number(score) / (Number(gamesPlayed) || 1);
+        const gamesWeight = Math.min(1, Number(gamesPlayed) / 10); // Caps at 10 games
+        const weightedScore = averageScore * (1 + gamesWeight);
+        return weightedScore.toFixed(1);
+    }
+
     $: sortedPlayers = isLoading ? [] : [...players].sort((a, b) => {
-        const aScore = Number(a.score) / (Number(a.gamesPlayed) || 1) || 0;
-        const bScore = Number(b.score) / (Number(b.gamesPlayed) || 1) || 0;
-        return bScore - aScore;
+        const aRanking = calculateRanking(a.score, a.gamesPlayed);
+        const bRanking = calculateRanking(b.score, b.gamesPlayed);
+        return bRanking - aRanking;
     });
 
     $: {
@@ -380,7 +387,7 @@
                                 {/if}
                             </td>
                             <td>{player.name}</td>
-                            <td style="font-weight: bold; color: #5c4290;">{((Number(player.score) / (Number(player.gamesPlayed) || 1)) || 0).toFixed(1)}</td>
+                            <td style="font-weight: bold; color: #5c4290;">{calculateRanking(player.score, player.gamesPlayed)}</td>
                             <td>{player.score}</td>
                             <td>{player.gamesPlayed}</td>
                             
