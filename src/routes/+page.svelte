@@ -254,14 +254,14 @@
             }
 
             // Get current rankings
-            const currentRankings = players.sort((a, b) => b.score - a.score);
+            const currentRankings = players.sort((a, b) => calculateRanking(b.score, b.gamesPlayed) - calculateRanking(a.score, a.gamesPlayed));
             const winnerRank = currentRankings.findIndex(p => p.id === winnerData.id);
             const loserRank = currentRankings.findIndex(p => p.id === loserData.id);
 
             // Calculate points based on rank difference
             let pointsForWinner = 2.00;
             const rankDifference = loserRank - winnerRank;
-            if (rankDifference > 0) {
+            if (rankDifference > 0) {  // Only apply bonus if winner was lower ranked
                 const extraPoints = Math.min(7.00, rankDifference / 3);
                 pointsForWinner += extraPoints;
             }
