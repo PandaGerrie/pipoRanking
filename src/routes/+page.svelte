@@ -537,8 +537,8 @@
                 <div class="expBlock" style="flex: 1; margin-left: 10px;">
                     <h5>Ranking formula: </h5>
                     <ul>
-                        <li>1. Base points for winning: 2.00</li>
-                        <li>2. Extra points: (Rank difference) / 3, capped at 7</li>
+                        <li>1. Base pts for winning: 2.00</li>
+                        <li>2. Extra pts: (Rank difference) / 3, capped at 7</li>
                         <li>3. Maintains overall stability in the rankings</li>
                         <li>4. Weight factor for the # of games played</li>
                     </ul>
