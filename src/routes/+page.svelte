@@ -538,7 +538,7 @@
                     <h5>Ranking formula: </h5>
                     <ul>
                         <li>1. Base points for winning: 2.00</li>
-                        <li>2. Extra points: (Rank difference) / 3, capped at 7.00</li>
+                        <li>2. Extra points: (Rank difference) / 3, capped at 7</li>
                         <li>3. Maintains overall stability in the rankings</li>
                         <li>4. Weight factor for the # of games played</li>
                     </ul>
