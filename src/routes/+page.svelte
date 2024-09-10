@@ -358,9 +358,9 @@
                     <tr>
                         <th>Rank</th>
                         <th>Name</th>
-                        <th>Score</th>
-                        <th>Games Played</th>
                         <th>Ranking Score</th>
+                        <th>Score</th>
+                        <th>Games Played</th> 
                         <th>Company</th>
                         <th>Action</th>
                     </tr>
@@ -380,9 +380,10 @@
                                 {/if}
                             </td>
                             <td>{player.name}</td>
+                            <td style="font-weight: bold; color: #5c4290;">{((Number(player.score) / (Number(player.gamesPlayed) || 1)) || 0).toFixed(1)}</td>
                             <td>{player.score}</td>
                             <td>{player.gamesPlayed}</td>
-                            <td>{((Number(player.score) / (Number(player.gamesPlayed) || 1)) || 0).toFixed(1)}</td>
+                            
                             <td>
                                 <div style="
                                     background-color: rgba({player.companyColor?.rgba?.r ?? 0}, {player.companyColor?.rgba?.g ?? 0}, {player.companyColor?.rgba?.b ?? 0}, 0.15);
@@ -394,6 +395,7 @@
 									width: 80%;
 									text-align: center;
 									margin: 0 auto;
+                                    text-transform: uppercase;
                                 ">
                                     {player.company ?? ''}
                                 </div>
