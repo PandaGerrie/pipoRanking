@@ -507,6 +507,11 @@
         font-family: Arial, Helvetica, sans-serif;
         background-color: #f0f5ff;
     }
+    .cheat-warning{
+        text-align: center;
+        font-size: 10px;
+        color: #503782;
+    }
     .popup-overlay {
         position: fixed;
         top: 0;
