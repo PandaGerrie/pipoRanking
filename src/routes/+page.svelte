@@ -412,6 +412,7 @@
 			<button on:click={() => showNewPlayerPopup = true}>Add New Player</button>
 			<button on:click={() => showPopup = true}>Add New Result</button>
 		</div>
+		<p class="cheat-warning">⚠️ You are able to cheat, but please don't!</p>
 	</div>
 </section>
 
