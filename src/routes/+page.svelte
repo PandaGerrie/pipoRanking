@@ -719,4 +719,24 @@
     .toast.success {
         background-color: #704a80;
     }
+
+    @media (max-width: 768px) {
+        .popup {
+            margin: 0 10px;
+        }
+        table {
+            font-size: 14px;
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+        .button-container {
+            flex-direction: column;
+            width: 100%;
+        }
+        .button-container button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
 </style>
