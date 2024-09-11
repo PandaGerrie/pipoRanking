@@ -8,14 +8,14 @@
     let showNewPlayerPopup = false;
     let scoringInfo = false;
     let newPlayerName = '';
-    let showDeleteConfirmation = false;
+    let showDeleteConfirmation = false;``
     let winner = '';
     let loser = '';
     let playerToDelete = '';
     let playerToDeleteId = '';
     let deletePassword = '';
 	let newPlayerCompany = '';
-	let newPlayerCompanyColor = '';
+	let newPlayerCompanyColor = ''
     const apiUrl = 'https://eu-central-1-shared-euc1-02.cdn.hygraph.com/content/cm0wg7mge00s407w1ccdvtrrt/master';
     const basicToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE3MjU5ODE2OTgsImF1ZCI6WyJodHRwczovL2FwaS1ldS1jZW50cmFsLTEtc2hhcmVkLWV1YzEtMDIuaHlncmFwaC5jb20vdjIvY20wd2c3bWdlMDBzNDA3dzFjY2R2dHJydC9tYXN0ZXIiLCJtYW5hZ2VtZW50LW5leHQuZ3JhcGhjbXMuY29tIl0sImlzcyI6Imh0dHBzOi8vbWFuYWdlbWVudC1ldS1jZW50cmFsLTEtc2hhcmVkLWV1YzEtMDIuaHlncmFwaC5jb20vIiwic3ViIjoiZDdiZmRkOTYtYTk3Yy00NWNkLThhZjYtNDdkYWVmN2VkMGQ4IiwianRpIjoiY20wd2t4dTJjMG95azA3dXlkNmViYTlpeiJ9.Fk1rz6rFlI7gDFZD-KaE5uve5g1S4s1knB-jPTDZfqlPg2qyQ4qnvVoKLqA6Zp_hXwXPwtZJtmnQoNUEldhkDu7M2mds-w7Cc5M6jGjBWmkd3b3QqU9QpQ8YTYamElC9pD16Iy97yGMcCkEPrOc4OpiKaoxC7fsXr15VFiFkP9f_PL7wDsZQpGXNcQVc1kgUdH5YaUbveiO1we9KXbwu18a3ZItE7yYeTI2K2pJkN5WaxydM6pQXE7YWcbOK86UV0WBqKCiXd7F79bgUi8N1-Ebump742wQMWqoCv5kQEmhxF7ebOD6bphubwgmAfS8UxmdH_vHZYUdyyrJbmA060QnvtMl8X2UExHmz78Tr-vZyGcX8_5SsvxPJkatKWW-1vWPNFXxkPQMeD-mGOy5zoNPzUNC_e_dgknN20qm3TYuq6haAX77ZYLirdfQ76jvKzn-knmK108EW22qncHPjO9uDWPvXlMRYoUxbA3WMa_tfyRIUEoGwjRPeN12S6ZnSK5PIhgYxg55xkm0X4wcuETtiYtEQDT0d_E3dkG1DfwFN983918h557aEc9hsUFodX28EZwe0yPwrKxxTUbPZHgrSo2m8BuT97_uI5VwgWenurxBv3ajRnOmwm6E5Tej7BP4mdHFRLs3HI20LXWLozoGZDZQH2RO7V5Gh5J8n8ww'; // Replace with your actual API key
 
@@ -336,7 +336,7 @@
 
     function calculateRanking(score, gamesPlayed) {
         const averageScore = Number(score) / (Number(gamesPlayed) || 1);
-        const gamesWeight = Math.min(1, Number(gamesPlayed) / 13); // Caps at 13 games
+        const gamesWeight = Math.min(0.5, Number(gamesPlayed) / 26); // Caps at 26 games, max weight of 0.5
         const weightedScore = averageScore * (1 + gamesWeight);
         return weightedScore.toFixed(2);
     }
@@ -548,6 +548,7 @@
         </div>
     </div>
 {/if}
+
 
 
 
