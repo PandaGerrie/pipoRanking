@@ -253,16 +253,17 @@
                 throw new Error('Winner or loser not found');
             }
 
-            // Get current rankings
-            const currentRankings = players.sort((a, b) => calculateRanking(b.score, b.gamesPlayed) - calculateRanking(a.score, a.gamesPlayed));
-            const winnerRank = currentRankings.findIndex(p => p.id === winnerData.id);
-            const loserRank = currentRankings.findIndex(p => p.id === loserData.id);
+            // Calculate current rankings
+            const calculatePlayerRanking = (player) => calculateRanking(player.score, player.gamesPlayed);
+            const winnerRankScore = calculatePlayerRanking(winnerData);
+            const loserRankScore = calculatePlayerRanking(loserData);
 
-            // Calculate points based on rank difference
+            // Calculate points based on rank score difference
             let pointsForWinner = 2.00;
-            const rankDifference = winnerRank - loserRank;
-            if (rankDifference > 0 && calculateRanking(winnerData.score, winnerData.gamesPlayed) !== calculateRanking(loserData.score, loserData.gamesPlayed)) {
-                const extraPoints = Math.min(7.00, rankDifference / 3);
+            const rankScoreDifference = loserRankScore - winnerRankScore;
+            if (rankScoreDifference > 0) {
+                // Adjust the divisor (5 in this example) to scale the bonus points appropriately
+                const extraPoints = Math.min(7.00, rankScoreDifference / 5);
                 pointsForWinner += extraPoints;
             }
 
