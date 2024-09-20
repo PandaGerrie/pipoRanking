@@ -40,7 +40,7 @@
                 body: JSON.stringify({
                     query: `
                     {
-                        players {
+                        players(first: 1000) {
                             id
                             name
                             score
